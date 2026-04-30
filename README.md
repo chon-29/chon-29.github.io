@@ -1,5 +1,5 @@
 # chon-29.github.io
-### ortfolio
+### portfolio
 
 > **[chon-29.github.io](https://chon-29.github.io)**
 
