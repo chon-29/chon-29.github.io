@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>손형은 | Security Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:      #ffffff;
+      --bg2:     #f0f7ff;
+      --accent:  #0ea5e9;
+      --green:   #16a34a;
+      --border:  #bae6fd;
+      --text:    #0f172a;
+      --muted:   #4b6278;
+      --card:    #ffffff;
+      --shadow:  0 1px 12px rgba(14,165,233,0.10);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg2); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem; height: 60px;
+      background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 1px 8px rgba(14,165,233,0.07);
+    }
+    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: .12em; color: var(--accent); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-family: 'JetBrains Mono', monospace; font-size: .78rem; color: var(--muted); text-decoration: none; letter-spacing: .06em; transition: color .2s; }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* HERO */
+    #hero {
+      position: relative; min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 0 clamp(1.5rem, 8vw, 9rem);
+      overflow: hidden;
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 55%, #f8faff 100%);
+    }
+    #hero::after {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(14,165,233,.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(14,165,233,.07) 1px, transparent 1px);
+      background-size: 60px 60px; pointer-events: none;
+    }
+    .hero-glow {
+      position: absolute; width: 560px; height: 560px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(56,189,248,.25) 0%, transparent 70%);
+      top: -80px; right: -80px; animation: pulse 6s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{transform:scale(1);opacity:.7} 50%{transform:scale(1.08);opacity:1} }
+    .hero-content { position: relative; z-index: 1; max-width: 700px; }
+    .hero-tag { font-family: 'JetBrains Mono', monospace; font-size: .78rem; color: var(--accent); letter-spacing: .2em; text-transform: uppercase; margin-bottom: 1.2rem; opacity: 0; animation: fadeUp .6s .2s forwards; }
+    .hero-tag::before { content: '// '; opacity: .45; }
+    h1.hero-name { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 7vw, 5.5rem); line-height: .95; letter-spacing: .04em; color: #0f172a; opacity: 0; animation: fadeUp .6s .35s forwards; }
+    .hero-name-en { font-family: 'JetBrains Mono', monospace; font-size: clamp(.9rem, 2vw, 1.15rem); color: var(--accent); letter-spacing: .18em; margin-top: .4rem; opacity: 0; animation: fadeUp .6s .42s forwards; }
+    .hero-sub { font-size: 1.05rem; color: var(--muted); margin-top: 1.2rem; line-height: 1.75; opacity: 0; animation: fadeUp .6s .5s forwards; }
+    .hero-badges { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 2rem; opacity: 0; animation: fadeUp .6s .65s forwards; }
+    .badge { font-family: 'JetBrains Mono', monospace; font-size: .72rem; padding: .3rem .75rem; border: 1px solid #bae6fd; border-radius: 3px; color: var(--accent); background: #e0f2fe; letter-spacing: .05em; }
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2.5rem; opacity: 0; animation: fadeUp .6s .8s forwards; }
+    .btn { font-family: 'JetBrains Mono', monospace; font-size: .8rem; padding: .75rem 1.8rem; border-radius: 4px; text-decoration: none; letter-spacing: .08em; transition: all .2s; cursor: pointer; }
+    .btn-primary { background: var(--accent); color: #fff; border: none; font-weight: 700; }
+    .btn-primary:hover { background: #0284c7; }
+    .btn-ghost { background: transparent; color: var(--accent); border: 1.5px solid var(--accent); }
+    .btn-ghost:hover { background: #e0f2fe; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+    /* SECTIONS */
+    section { padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 8vw, 9rem); }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: .72rem; color: var(--accent); letter-spacing: .22em; text-transform: uppercase; margin-bottom: .6rem; }
+    #about    .section-label::before { content: '01. '; }
+    #skills   .section-label::before { content: '02. '; }
+    #projects .section-label::before { content: '03. '; }
+    #certs    .section-label::before { content: '04. '; }
+    h2.section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.2rem, 5vw, 3.5rem); letter-spacing: .06em; color: var(--text); margin-bottom: 2.5rem; line-height: 1; }
+
+    /* PROFILE CARD */
+    .profile-card { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); border-radius: 12px; background: var(--card); box-shadow: var(--shadow); overflow: hidden; }
+    .profile-info-row { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.4rem; }
+    .profile-info-row + .profile-info-row { border-top: none; }
+    .profile-divider { height: 1.5px; background: #bae6fd; margin: .2rem 1.4rem; }
+    .profile-icon { width: 22px; height: 22px; display: flex; align-items: center; justify-content: flex-start; flex-shrink: 0; color: var(--accent); opacity: .85; }
+    .profile-label { font-family: 'JetBrains Mono', monospace; font-size: .73rem; color: var(--muted); min-width: 72px; letter-spacing: .03em; }
+    .profile-value { font-size: .88rem; color: var(--text); }
+
+    /* ABOUT */
+    #about { background: var(--bg2); }
+    .about-intro { margin-bottom: 2rem; }
+    .about-intro p { color: var(--muted); line-height: 1.9; font-size: .95rem; margin-bottom: .8rem; }
+    .about-intro p strong { color: var(--text); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+    .about-text p { color: var(--muted); line-height: 1.9; font-size: .95rem; margin-bottom: 1rem; }
+    .about-text p strong { color: var(--text); }
+    .about-awards { display: flex; flex-direction: column; gap: .75rem; }
+    .award-item { display: flex; align-items: center; gap: .8rem; padding: .85rem 1.1rem; border: 1px solid var(--border); border-radius: 8px; background: var(--card); box-shadow: var(--shadow); transition: border-color .2s, transform .2s; }
+    .award-item:hover { border-color: var(--accent); transform: translateX(4px); }
+    .award-text { font-size: .85rem; color: var(--text); line-height: 1.4; }
+    .award-text a:hover { color: var(--accent) !important; text-decoration: underline !important; }
+    .award-text span { display: block; font-size: .74rem; color: var(--muted); margin-top: .15rem; }
+
+    /* SKILLS */
+    #skills { background: var(--bg); }
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 1.2rem; }
+    .skill-card { padding: 1.4rem 1.6rem; border: 1px solid var(--border); border-radius: 8px; background: var(--card); box-shadow: var(--shadow); transition: border-color .2s, transform .2s; }
+    .skill-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .skill-card h3 { font-family: 'JetBrains Mono', monospace; font-size: .78rem; color: var(--accent); letter-spacing: .1em; margin-bottom: .9rem; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .skill-tag { font-size: .75rem; padding: .2rem .6rem; border-radius: 3px; background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+
+    /* PROJECTS */
+    #projects { background: var(--bg2); }
+    .projects-list { display: flex; flex-direction: column; gap: 1.5rem; }
+    .project-card { scroll-margin-top: 80px; display: grid; grid-template-columns: 1fr auto; gap: 1rem; padding: 1.8rem 2rem; border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; background: var(--card); box-shadow: var(--shadow); transition: box-shadow .2s, transform .2s; }
+    .project-card:hover { box-shadow: 0 4px 24px rgba(14,165,233,0.15); transform: translateX(4px); }
+    .project-card.highlight { border-left-color: #f43f5e; }
+    .project-card.highlight .project-badge { background: #dcfce7; color: #15803d; border-color: #86efac; }
+    .project-meta { display: flex; align-items: center; gap: .6rem; margin-bottom: .5rem; flex-wrap: wrap; }
+    .project-badge { font-family: 'JetBrains Mono', monospace; font-size: .68rem; padding: .2rem .55rem; border-radius: 3px; background: #e0f2fe; color: var(--accent); border: 1px solid #bae6fd; letter-spacing: .05em; }
+    .project-period { font-family: 'JetBrains Mono', monospace; font-size: .72rem; color: var(--muted); }
+    .project-card h3 { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: .5rem; }
+    .project-card p { font-size: .88rem; color: var(--muted); line-height: 1.75; }
+    .project-card ul { margin-top: .6rem; padding-left: 1.1rem; font-size: .85rem; color: var(--muted); line-height: 1.8; }
+    .project-card ul li::marker { color: var(--accent); }
+    .project-stack { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .8rem; }
+    .stack-tag { font-family: 'JetBrains Mono', monospace; font-size: .68rem; padding: .15rem .5rem; border-radius: 2px; background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+    .project-award { align-self: center; text-align: right; white-space: nowrap; font-size: .82rem; color: var(--green); font-weight: 700; }
+    .project-award span { display: block; font-size: .7rem; color: var(--muted); font-weight: 400; }
+
+    /* CERTS */
+    #certs { background: var(--bg); }
+    .certs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: 1rem; }
+    .cert-card { padding: 1.3rem 1.5rem; border: 1px solid var(--border); border-radius: 8px; background: var(--card); box-shadow: var(--shadow); transition: border-color .2s, transform .2s; }
+    .cert-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .cert-date { font-family: 'JetBrains Mono', monospace; font-size: .7rem; color: var(--accent); letter-spacing: .08em; margin-bottom: .4rem; }
+    .cert-name { font-size: .95rem; font-weight: 700; color: var(--text); }
+    .cert-note { font-size: .78rem; color: var(--muted); margin-top: .2rem; }
+
+    /* CONTACT */
+    #contact { background: var(--bg2); }
+    .contact-inner { max-width: 560px; }
+    .contact-inner p { color: var(--muted); line-height: 1.8; margin-bottom: 2rem; }
+    .contact-links { display: flex; flex-wrap: wrap; gap: .8rem; }
+    .contact-link { display: flex; align-items: center; gap: .5rem; font-family: 'JetBrains Mono', monospace; font-size: .8rem; padding: .65rem 1.2rem; border: 1px solid var(--border); border-radius: 5px; color: var(--text); text-decoration: none; background: var(--card); box-shadow: var(--shadow); transition: border-color .2s, color .2s; }
+    .contact-link:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* FOOTER */
+    footer { padding: 1.5rem clamp(1.5rem, 8vw, 9rem); border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .5rem; background: var(--bg); }
+    footer p { font-family: 'JetBrains Mono', monospace; font-size: .72rem; color: var(--muted); }
+
+    /* GITHUB LINK PREVIEW */
+    .gh-link { display: inline-flex; align-items: center; gap: .45rem; margin-top: .9rem; font-family: 'JetBrains Mono', monospace; font-size: .75rem; padding: .45rem .9rem; border: 1px solid var(--border); border-radius: 6px; background: #f6f8fa; color: #24292f; text-decoration: none; transition: border-color .2s, background .2s; }
+    .gh-link:hover { border-color: var(--accent); background: #e0f2fe; color: var(--accent); }
+    .gh-link svg { flex-shrink: 0; }
+
+    @media (max-width: 700px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .project-card { grid-template-columns: 1fr; }
+      .project-award { text-align: left; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">SHE</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#certs">Certs</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <p class="hero-tag">Security Engineer</p>
+    <h1 class="hero-name">손형은</h1>
+    <p class="hero-name-en">hyungeun son</p>
+    <p class="hero-sub">
+      Cloud Security · CERT · Reverse Engineering<br>
+      상명대학교 정보보안공학과
+    </p>
+    <div class="hero-badges">
+      <span class="badge">Cloud Security</span>
+      <span class="badge">CERT</span>
+      <span class="badge">Reversing / Malware</span>
+      <span class="badge">Vulnerability Mgmt</span>
+    </div>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">View Projects</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <p class="section-label">About</p>
+  <h2 class="section-title">소개</h2>
+  <div class="about-intro">
+    <p>KISIA AI 보안 기술개발 교육과정에서 <strong>악성코드 분석</strong>에 입문하며 보안에 본격적으로 발을 들였습니다. 이후 화이트햇 스쿨 3기를 통해 클라우드 환경의 침해 사고 탐지와 대응을 경험했고, 학습한 내용을 바탕으로 <strong>AI 기반 취약점 분석 자동화 시스템</strong>을 구현해 대한전기학회 및 교내 캡스톤디자인 경진대회에서 <strong>대상을 수상했습니다.</strong></p>
+    <p>방어 관점을 쌓아온 흐름에서 자연스럽게 공격자의 시각도 궁금해져 <strong>Baby Beavers</strong>에 참여했습니다. 클라우드 환경을 방어와 공격 양측에서 이해하는 것을 목표로 하며, 주 관심 분야는 <strong>리버싱 / 악성코드 분석</strong>과 <strong>클라우드 기반 침해 사고 탐지 및 대응</strong>입니다.</p>
+  </div>
+  <div class="about-grid">
+
+    <!-- 왼쪽: 프로필 카드 -->
+    <div class="profile-card">
+      <div class="profile-info-row">
+        <span class="profile-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></span>
+        <span class="profile-label">이름</span>
+        <span class="profile-value">손형은</span>
+      </div>
+      <div class="profile-info-row">
+        <span class="profile-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+        <span class="profile-label">생년월일</span>
+        <span class="profile-value">2003. 09. 29</span>
+      </div>
+      <div class="profile-info-row">
+        <span class="profile-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span>
+        <span class="profile-label">학력</span>
+        <span class="profile-value">상명대학교 정보보안공학과 4학년 재학중</span>
+      </div>
+      <div class="profile-divider"></div>
+      <div class="profile-info-row">
+        <span class="profile-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg></span>
+        <span class="profile-label">Git</span>
+        <span class="profile-value"><a href="https://github.com/chon-29" target="_blank" style="color:var(--accent);text-decoration:none;">github.com/chon-29</a></span>
+      </div>
+      <div class="profile-info-row">
+        <span class="profile-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
+        <span class="profile-label">Blog</span>
+        <span class="profile-value"><a href="https://chon29.tistory.com/category" target="_blank" style="color:var(--accent);text-decoration:none;">chon29.tistory.com</a></span>
+      </div>
+      <div class="profile-info-row">
+        <span class="profile-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></span>
+        <span class="profile-label">LinkedIn</span>
+        <span class="profile-value"><a href="https://www.linkedin.com/in/hyungeun-son-28a7663b3" target="_blank" style="color:var(--accent);text-decoration:none;">linkedin.com/in/hyungeun-son</a></span>
+      </div>
+      <div class="profile-info-row">
+        <span class="profile-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span>
+        <span class="profile-label">Email</span>
+        <span class="profile-value"><a href="mailto:son29ag@gmail.com" style="color:var(--accent);text-decoration:none;">son29ag@gmail.com</a></span>
+      </div>
+    </div>
+
+    <!-- 오른쪽: 활동 리스트 -->
+    <div class="about-awards">
+      <div class="award-item">
+        <div class="award-text">
+          <strong><a href="#proj-beavers" style="color:inherit;text-decoration:none;">Baby Beavers 1기</a></strong>
+          <span>2026.03 ~ · 클라우드 보안 / 레드팀</span>
+        </div>
+      </div>
+      <div class="award-item">
+        <div class="award-text">
+          <strong><a href="#proj-mcp" style="color:inherit;text-decoration:none;">상명대학교 캡스톤디자인 교내 경진대회 대상</a></strong>
+          <span>2026.02.05</span>
+        </div>
+      </div>
+      <div class="award-item">
+        <div class="award-text">
+          <strong><a href="#proj-mcp" style="color:inherit;text-decoration:none;">대한전기학회 18회 대상</a></strong>
+          <span>2025.10.23</span>
+        </div>
+      </div>
+      <div class="award-item">
+        <div class="award-text">
+          <strong><a href="#proj-whitehat" style="color:inherit;text-decoration:none;">KITRI 화이트햇 스쿨 3기</a></strong> 수료
+          <span>2025.03 ~ 2025.09</span>
+        </div>
+      </div>
+      <div class="award-item">
+        <div class="award-text">
+          <strong><a href="#proj-kisia" style="color:inherit;text-decoration:none;">KISIA AI 보안 기술개발 교육과정</a></strong> — 악성코드 트랙 수료
+          <span>2024.06 ~ 2024.10</span>
+        </div>
+      </div>
+      <div class="award-item">
+        <div class="award-text">
+          <strong>상명대학교 정보보안공학과 입학</strong>
+          <span>2023.03</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <p class="section-label">Skills</p>
+  <h2 class="section-title">기술 스택</h2>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <h3>☁️ Cloud</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">인프라 구축</span>
+        <span class="skill-tag">Terraform</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <h3>🛡️ CERT</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">침해사고 탐지</span>
+        <span class="skill-tag">로그 분석</span>
+        <span class="skill-tag">SIEM</span>
+        <span class="skill-tag">취약점 관리</span>
+        <span class="skill-tag">SCA</span>
+        <span class="skill-tag">Incident Response</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <h3>🔬 Reversing / Malware</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">악성코드 분석</span>
+        <span class="skill-tag">리버싱</span>
+        <span class="skill-tag">ML 기반 분류</span>
+        <span class="skill-tag">정적 분석</span>
+        <span class="skill-tag">동적 분석</span>
+        <span class="skill-tag">x64dbg</span>
+        <span class="skill-tag">IDA Pro</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <h3>💻 Dev & Infra</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">Linux</span>
+        <span class="skill-tag">Docker</span>
+        <span class="skill-tag">Git</span>
+        <span class="skill-tag">MCP</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="section-label">Projects</p>
+  <h2 class="section-title">프로젝트</h2>
+  <div class="projects-list">
+
+    <!-- 2026.03 OpenClaw 캡스톤 4-1 (진행 중) -->
+    <div id="proj-openclaw" class="project-card" style="border-left-color:#f43f5e;">
+      <div>
+        <div class="project-meta">
+          <span class="project-badge" style="color:#d97706;border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.08);">진행 중</span>
+          <span class="project-badge" style="color:#d97706;border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.08);">캡스톤디자인 4-1학기</span>
+          <span class="project-badge" style="color:#d97706;border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.08);">skrr 팀</span>
+          <span class="project-period">2026.03 ~ 현재</span>
+        </div>
+        <h3>자율형 AI Agent(OpenClaw)를 활용한 취약점 분석 자동화</h3>
+        <p>Discord Bot UI를 통해 사용자 명령을 받아 AI 에이전트가 자동으로 취약점을 스캔하고 MITRE ATT&amp;CK 시나리오와 매핑하여 보고서를 생성하는 자율형 보안 분석 시스템 개발.</p>
+        <ul>
+          <li>OpenClaw Agent — Vulnerability Scanner · MITRE ATT&amp;CK Scenario Mapper 스킬 설계</li>
+          <li>스캔 결과 기반 공격 시나리오 자동 생성</li>
+          <li>Discord Bot 인터페이스 연동 및 취약점 리포트 시각화</li>
+          <li>nmap · mitreattack-python 모듈 활용</li>
+        </ul>
+        <div class="project-stack">
+          <span class="stack-tag">Python</span>
+          <span class="stack-tag">AI Agent</span>
+          <span class="stack-tag">MITRE ATT&amp;CK</span>
+          <span class="stack-tag">nmap</span>
+          <span class="stack-tag">Discord Bot</span>
+          <span class="stack-tag">Docker</span>
+        </div>
+        <a href="https://github.com/lhywk/openclaw-vulnerability-scanner" target="_blank" class="gh-link">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          lhywk/openclaw-vulnerability-scanner
+        </a>
+      </div>
+    </div>
+
+    <!-- 2026.03 Baby Beavers (진행 중) -->
+    <div id="proj-beavers" class="project-card" style="border-left-color:#f43f5e;">
+      <div>
+        <div class="project-meta">
+          <span class="project-badge" style="color:#a78bfa;border-color:rgba(167,139,250,.25);background:rgba(167,139,250,.08);">진행 중</span>
+          <span class="project-badge" style="color:#a78bfa;border-color:rgba(167,139,250,.25);background:rgba(167,139,250,.08);">🦫 Baby Beavers 1기</span>
+          <span class="project-badge" style="color:#a78bfa;border-color:rgba(167,139,250,.25);background:rgba(167,139,250,.08);">Justin Beavers 팀</span>
+          <span class="project-period">2026.03 ~ 현재</span>
+        </div>
+        <h3>클라우드 보안 학습 — 레드팀 시나리오 & 인프라 구축</h3>
+        <p>Baby Beavers 클라우드 보안 주니어 트레이닝 프로그램 참여. 공격자 관점의 레드팀 시나리오를 설계하고 AWS 인프라를 직접 구축하며 클라우드 보안을 학습 중.</p>
+        <ul>
+          <li>레드팀 관점의 공격 시나리오 설계 및 실습</li>
+          <li>Terraform을 활용한 AWS 인프라 구축 및 자동화</li>
+          <li>횡적 이동(Lateral Movement) 공격 기법 연구</li>
+        </ul>
+        <div class="project-stack">
+          <span class="stack-tag">AWS</span>
+          <span class="stack-tag">Terraform</span>
+          <span class="stack-tag">Red Team</span>
+          <span class="stack-tag">Lateral Movement</span>
+        </div>
+        <a href="https://github.com/Beaver-Dam-Community/GnawLab" target="_blank" class="gh-link">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          Beaver-Dam-Community/GnawLab
+        </a>
+      </div>
+    </div>
+
+    <!-- 2025.10 MCP 캡스톤 -->
+    <div id="proj-mcp" class="project-card highlight">
+      <div>
+        <div class="project-meta">
+          <span class="project-badge">🏆 AWARD ×2</span>
+          <span class="project-badge">캡스톤디자인 3-2학기</span>
+          <span class="project-badge">타이거개구리 팀</span>
+          <span class="project-period">2025.10.23</span>
+        </div>
+        <h3>MCP 기반 소프트웨어 구성 요소 분석 및 취약점 관리 시스템</h3>
+        <p>MCP(Model Context Protocol) 기반으로 소프트웨어 구성 요소(SCA)를 자동 분석하고, CVE 데이터베이스와 연동하여 취약점을 탐지·관리·보고하는 통합 시스템 구현.</p>
+        <ul>
+          <li>소프트웨어 의존성 자동 파싱 및 구성 요소 목록화</li>
+          <li>CVE 데이터베이스 연동 취약점 자동 매핑</li>
+          <li>MCP 기반 자동화 파이프라인 설계</li>
+        </ul>
+        <div class="project-stack">
+          <span class="stack-tag">Python</span>
+          <span class="stack-tag">MCP</span>
+          <span class="stack-tag">CVE DB</span>
+        </div>
+        <a href="https://github.com/lhywk/mcp-sca-vms" target="_blank" class="gh-link">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          github.com/lhywk/mcp-sca-vms
+        </a>
+        <a href="https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE12434233" target="_blank" class="gh-link">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M1 2.5A1.5 1.5 0 012.5 1h8A1.5 1.5 0 0112 2.5v2h.5A1.5 1.5 0 0114 6v8a1.5 1.5 0 01-1.5 1.5h-8A1.5 1.5 0 013 14v-2H1.5A1.5 1.5 0 010 10.5v-8zm4 12H12.5a.5.5 0 00.5-.5V6a.5.5 0 00-.5-.5H5a.5.5 0 00-.5.5v8a.5.5 0 00.5.5zM2.5 2a.5.5 0 00-.5.5v8a.5.5 0 00.5.5H3V6a1.5 1.5 0 011.5-1.5H11V2.5a.5.5 0 00-.5-.5h-8z"/></svg>
+          논문 — 대한전기학회 학술대회 논문집
+        </a>
+      </div>
+      <div class="project-award">
+        🥇 대상 ×2
+        <span>대한전기학회 18회<br>2025.10.23</span>
+        <span style="margin-top:.4rem;display:block;">상명대 캡스톤 교내<br>2026.02.05</span>
+      </div>
+    </div>
+
+    <!-- 2025.05 화이트햇 -->
+    <div id="proj-whitehat" class="project-card" style="border-left-color:#f43f5e;">
+      <div>
+        <div class="project-meta">
+          <span class="project-badge">화이트햇 스쿨 3기</span>
+          <span class="project-badge">AWS 애쓰지 말라고 했지</span>
+          <span class="project-period">2025.05 ~ 2025.08</span>
+        </div>
+        <h3>AWS 클라우드 환경의 로그 기반 침해 사고 탐지 환경 구축</h3>
+        <p>AWS 환경에서 실제 공격 시나리오에 대응하는 로그 기반 침해 사고 탐지 파이프라인 설계 및 구현.</p>
+        <ul>
+          <li>CloudTrail · CloudWatch · GuardDuty 등 AWS 네이티브 보안 서비스 활용</li>
+          <li>이상 행위 탐지 룰셋 설계 및 알림 자동화</li>
+        </ul>
+        <div class="project-stack">
+          <span class="stack-tag">AWS</span>
+          <span class="stack-tag">CloudTrail</span>
+          <span class="stack-tag">CloudWatch</span>
+          <span class="stack-tag">GuardDuty</span>
+        </div>
+        <a href="https://github.com/whs-dontdothat-aws" target="_blank" class="gh-link">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          github.com/whs-dontdothat-aws
+        </a>
+      </div>
+    </div>
+
+    <!-- 2024 KISIA -->
+    <div id="proj-kisia" class="project-card" style="border-left-color:#f43f5e;">
+      <div>
+        <div class="project-meta">
+          <span class="project-badge">KISIA AI 보안 기술개발</span>
+          <span class="project-badge">가락동 패거리 팀</span>
+          <span class="project-period">2024.06 ~ 2024.10</span>
+        </div>
+        <h3>악성코드 유사도 기반 논문 추천 및 연구 동향 시각화 서비스</h3>
+        <p>악성코드 파일을 입력받아 악성 여부를 판별하고, 임베딩 기반 유사도 검색으로 관련 논문을 추천하며 연구 동향을 시각화하는 서비스 개발.</p>
+        <ul>
+          <li>악성코드 데이터셋 종류별 labeling 및 임베딩 모델 구축</li>
+          <li>arxiv 논문 크롤링 자동화 및 메타데이터 DB 구축</li>
+          <li>유사도 기반 관련 논문 추천 + 시계열 연구 동향 시각화</li>
+          <li>citation · reference 분석으로 논문 연관성 파악</li>
+        </ul>
+        <div class="project-stack">
+          <span class="stack-tag">Python</span>
+          <span class="stack-tag">Word Embedding</span>
+          <span class="stack-tag">arxiv API</span>
+          <span class="stack-tag">Semantic Scholar</span>
+          <span class="stack-tag">PyMuPDF</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CERTS -->
+<section id="certs">
+  <p class="section-label">Certifications</p>
+  <h2 class="section-title">자격증</h2>
+  <div class="certs-grid">
+    <div class="cert-card">
+      <div class="cert-date">2025.07.27</div>
+      <div class="cert-name">☁️ AWS Certified Cloud Practitioner</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-date">2026.04.03</div>
+      <div class="cert-name">🐧 리눅스마스터 2급</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-date">2026.03.06</div>
+      <div class="cert-name">📊 ADsP</div>
+      <div class="cert-note">데이터 분석 준전문가</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-date">2026.03.11</div>
+      <div class="cert-name">💻 정보처리기사</div>
+      <div class="cert-note">필기 합격</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 손형은 · Security Engineer</p>
+  <p>Built with ❤️ &amp; pure HTML/CSS</p>
+</footer>
+
+</body>
+</html>
