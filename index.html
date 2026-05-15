@@ -83,9 +83,10 @@
     section { padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 8vw, 9rem); }
     .section-label { font-family: 'JetBrains Mono', monospace; font-size: .72rem; color: var(--accent); letter-spacing: .22em; text-transform: uppercase; margin-bottom: .6rem; }
     #about    .section-label::before { content: '01. '; }
-    #skills   .section-label::before { content: '02. '; }
-    #projects .section-label::before { content: '03. '; }
-    #certs    .section-label::before { content: '04. '; }
+    #activities .section-label::before { content: '02. '; }
+    #skills   .section-label::before { content: '03. '; }
+    #projects .section-label::before { content: '04. '; }
+    #certs    .section-label::before { content: '05. '; }
     h2.section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.2rem, 5vw, 3.5rem); letter-spacing: .06em; color: var(--text); margin-bottom: 2.5rem; line-height: 1; }
 
     /* PROFILE CARD */
@@ -99,6 +100,7 @@
 
     /* ABOUT */
     #about { background: var(--bg2); }
+    #activities { background: var(--bg); }
     .about-intro { margin-bottom: 2rem; }
     .about-intro p { color: var(--muted); line-height: 1.9; font-size: .95rem; margin-bottom: .8rem; }
     .about-intro p strong { color: var(--text); }
@@ -127,7 +129,6 @@
     .project-card { scroll-margin-top: 80px; display: grid; grid-template-columns: 1fr auto; gap: 1rem; padding: 1.8rem 2rem; border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; background: var(--card); box-shadow: var(--shadow); transition: box-shadow .2s, transform .2s; }
     .project-card:hover { box-shadow: 0 4px 24px rgba(14,165,233,0.15); transform: translateX(4px); }
     .project-card.highlight { border-left-color: #f43f5e; }
-    .project-card.highlight .project-badge { background: #dcfce7; color: #15803d; border-color: #86efac; }
     .project-meta { display: flex; align-items: center; gap: .6rem; margin-bottom: .5rem; flex-wrap: wrap; }
     .project-badge { font-family: 'JetBrains Mono', monospace; font-size: .68rem; padding: .2rem .55rem; border-radius: 3px; background: #e0f2fe; color: var(--accent); border: 1px solid #bae6fd; letter-spacing: .05em; }
     .project-period { font-family: 'JetBrains Mono', monospace; font-size: .72rem; color: var(--muted); }
@@ -136,6 +137,7 @@
     .project-card ul { margin-top: .6rem; padding-left: 1.1rem; font-size: .85rem; color: var(--muted); line-height: 1.8; }
     .project-card ul li::marker { color: var(--accent); }
     .project-stack { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .8rem; }
+    .stack-tag::before { content: "#"; opacity: .5; margin-right: .1rem; }
     .stack-tag { font-family: 'JetBrains Mono', monospace; font-size: .68rem; padding: .15rem .5rem; border-radius: 2px; background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
     .project-award { align-self: center; text-align: right; white-space: nowrap; font-size: .82rem; color: var(--green); font-weight: 700; }
     .project-award span { display: block; font-size: .7rem; color: var(--muted); font-weight: 400; }
@@ -183,6 +185,7 @@
     <li><a href="#about">About</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#projects">Projects</a></li>
+    <li><a href="#activities">Activities</a></li>
     <li><a href="#certs">Certifications</a></li>
   </ul>
 </nav>
@@ -195,8 +198,7 @@
     <h1 class="hero-name">손형은</h1>
     <p class="hero-name-en">hyungeun son</p>
     <p class="hero-sub">
-      Cloud Security · CERT · Reverse Engineering<br>
-      상명대학교 정보보안공학과
+      Cloud Security · CERT · Reverse Engineering
     </p>
     <div class="hero-badges">
       <span class="badge">Cloud Security</span>
@@ -215,7 +217,7 @@
   <p class="section-label">About</p>
   <h2 class="section-title">소개</h2>
   <div class="about-intro">
-    <p>KISIA AI 보안 기술개발 교육과정에서 <strong>악성코드 분석</strong>에 입문하며 보안에 본격적으로 발을 들였습니다. 이후 화이트햇 스쿨 3기를 통해 클라우드 환경의 침해 사고 탐지와 대응을 경험했고, 학습한 내용을 바탕으로 <strong>AI 기반 취약점 분석 자동화 시스템</strong>을 구현해 대한전기학회 및 교내 캡스톤디자인 경진대회에서 <strong>대상을 수상했습니다.</strong></p>
+    <p>KISIA AI 보안 기술개발 교육과정에서 <strong>악성코드 분석</strong>을 처음 접하며 보안에 관심을 갖게 됐습니다. 이후 화이트햇 스쿨 3기를 통해 클라우드 환경의 침해 사고 탐지와 대응을 경험했고, 학습한 내용을 바탕으로 <strong>AI 기반 취약점 분석 자동화 시스템</strong>을 구현해 대한전기학회 및 교내 캡스톤디자인 경진대회에서 <strong>대상을 수상했습니다.</strong></p>
     <p>방어 관점을 쌓아온 흐름에서 자연스럽게 공격자의 시각도 궁금해져 <strong>Baby Beavers</strong>에 참여했습니다. 클라우드 환경을 방어와 공격 양측에서 이해하는 것을 목표로 하며, 주 관심 분야는 <strong>리버싱 / 악성코드 분석</strong>과 <strong>클라우드 기반 침해 사고 탐지 및 대응</strong>입니다.</p>
   </div>
   <div class="about-grid">
@@ -261,42 +263,48 @@
     </div>
 
     <!-- 오른쪽: 활동 리스트 -->
-    <div class="about-awards">
-      <div class="award-item">
-        <div class="award-text">
-          <strong><a href="#proj-beavers" style="color:inherit;text-decoration:none;">Baby Beavers 1기</a></strong>
-          <span>2026.03 ~ · 클라우드 보안 / 레드팀</span>
-        </div>
+  </div>
+</section>
+
+<!-- ACTIVITIES -->
+<section id="activities">
+  <p class="section-label">Activities</p>
+  <h2 class="section-title">활동</h2>
+  <div class="about-awards">
+    <div class="award-item">
+      <div class="award-text">
+        <strong><a href="#proj-beavers" style="color:inherit;text-decoration:none;">Baby Beavers 1기</a></strong>
+        <span>2026.03 ~ · 클라우드 보안 / 레드팀</span>
       </div>
-      <div class="award-item">
-        <div class="award-text">
-          <strong><a href="#proj-mcp" style="color:inherit;text-decoration:none;">상명대학교 캡스톤디자인 교내 경진대회 대상</a></strong>
-          <span>2026.02.05</span>
-        </div>
+    </div>
+    <div class="award-item">
+      <div class="award-text">
+        <strong><a href="#proj-mcp" style="color:inherit;text-decoration:none;">상명대학교 2025학년도 2학기 캡스톤디자인 경진대회 대상</a></strong>
+        <span>2026.02.05</span>
       </div>
-      <div class="award-item">
-        <div class="award-text">
-          <strong><a href="#proj-mcp" style="color:inherit;text-decoration:none;">대한전기학회 18회 대상</a></strong>
-          <span>2025.10.23</span>
-        </div>
+    </div>
+    <div class="award-item">
+      <div class="award-text">
+        <strong><a href="#proj-mcp" style="color:inherit;text-decoration:none;">대한전기학회 제18회 대학생 작품경진대회 대상</a></strong>
+        <span>2025.10.23</span>
       </div>
-      <div class="award-item">
-        <div class="award-text">
-          <strong><a href="#proj-whitehat" style="color:inherit;text-decoration:none;">KITRI 화이트햇 스쿨 3기</a></strong> 수료
-          <span>2025.03 ~ 2025.09</span>
-        </div>
+    </div>
+    <div class="award-item">
+      <div class="award-text">
+        <strong><a href="#proj-whitehat" style="color:inherit;text-decoration:none;">KITRI 화이트햇 스쿨 3기</a></strong> 수료
+        <span>2025.03 ~ 2025.09</span>
       </div>
-      <div class="award-item">
-        <div class="award-text">
-          <strong><a href="#proj-kisia" style="color:inherit;text-decoration:none;">KISIA AI 보안 기술개발 교육과정</a></strong> — 악성코드 트랙 수료
-          <span>2024.06 ~ 2024.10</span>
-        </div>
+    </div>
+    <div class="award-item">
+      <div class="award-text">
+        <strong><a href="#proj-kisia" style="color:inherit;text-decoration:none;">KISIA AI 보안 기술개발 교육과정</a></strong> — 악성코드 트랙 수료
+        <span>2024.06 ~ 2024.10</span>
       </div>
-      <div class="award-item">
-        <div class="award-text">
-          <strong>상명대학교 정보보안공학과 입학</strong>
-          <span>2023.03</span>
-        </div>
+    </div>
+    <div class="award-item">
+      <div class="award-text">
+        <strong>상명대학교 정보보안공학과 입학</strong>
+        <span>2023.03</span>
       </div>
     </div>
   </div>
@@ -344,6 +352,7 @@
         <span class="skill-tag">Linux</span>
         <span class="skill-tag">Docker</span>
         <span class="skill-tag">Git</span>
+        <span class="skill-tag">HTML</span>
         <span class="skill-tag">MCP</span>
       </div>
     </div>
@@ -360,26 +369,29 @@
     <div id="proj-openclaw" class="project-card" style="border-left-color:#f43f5e;">
       <div>
         <div class="project-meta">
-          <span class="project-badge" style="color:#d97706;border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.08);">진행 중</span>
-          <span class="project-badge" style="color:#d97706;border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.08);">캡스톤디자인 4-1학기</span>
-          <span class="project-badge" style="color:#d97706;border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.08);">skrr 팀</span>
+          <span class="project-badge">진행 중</span>
+          <span class="project-badge">캡스톤디자인 4-1학기</span>
+          <span class="project-badge">skrr 팀</span>
           <span class="project-period">2026.03 ~ 현재</span>
         </div>
         <h3>자율형 AI Agent(OpenClaw)를 활용한 취약점 분석 자동화</h3>
-        <p>Discord Bot UI를 통해 사용자 명령을 받아 AI 에이전트가 자동으로 취약점을 스캔하고 MITRE ATT&amp;CK 시나리오와 매핑하여 보고서를 생성하는 자율형 보안 분석 시스템 개발.</p>
+        <p>프롬프트 하나로 AI 에이전트가 취약점 스캔 → 공격 시나리오 생성 → 결과 시각화까지 전 과정을 자율적으로 수행하는 보안 분석 시스템.</p>
         <ul>
-          <li>OpenClaw Agent — Vulnerability Scanner · MITRE ATT&amp;CK Scenario Mapper 스킬 설계</li>
-          <li>스캔 결과 기반 공격 시나리오 자동 생성</li>
-          <li>Discord Bot 인터페이스 연동 및 취약점 리포트 시각화</li>
+          <li>Nuclei · Katana · TruffleHog 기반 취약점 스캐닝 스킬 설계</li>
+          <li>CWE → CAPEC → MITRE ATT&amp;CK 계층 매핑으로 위협 인텔리전스 연동</li>
+          <li>AI 에이전트가 스캔 결과 기반 공격 시나리오(선행 조건·단계·영향·조치) 자동 생성</li>
+          <li>Streamlit 대시보드 — 공격 경로 SVG 시각화 및 PDF 보고서 출력</li>
         </ul>
         <div class="project-stack">
           <span class="stack-tag">Python</span>
           <span class="stack-tag">AI Agent</span>
+          <span class="stack-tag">Nuclei</span>
           <span class="stack-tag">MITRE ATT&amp;CK</span>
-          <span class="stack-tag">Discord Bot</span>
+          <span class="stack-tag">Streamlit</span>
           <span class="stack-tag">Docker</span>
+          <span class="stack-tag">STIX2</span>
         </div>
-        <a href="https://github.com/lhywk/openclaw-vulnerability-scanner" target="_blank" class="gh-link">
+        <a href="https://github.com/S-CClaw" target="_blank" class="gh-link">
           <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
           lhywk/openclaw-vulnerability-scanner
         </a>
@@ -390,9 +402,9 @@
     <div id="proj-beavers" class="project-card" style="border-left-color:#f43f5e;">
       <div>
         <div class="project-meta">
-          <span class="project-badge" style="color:#a78bfa;border-color:rgba(167,139,250,.25);background:rgba(167,139,250,.08);">진행 중</span>
-          <span class="project-badge" style="color:#a78bfa;border-color:rgba(167,139,250,.25);background:rgba(167,139,250,.08);">🦫 Baby Beavers 1기</span>
-          <span class="project-badge" style="color:#a78bfa;border-color:rgba(167,139,250,.25);background:rgba(167,139,250,.08);">Justin Beavers 팀</span>
+          <span class="project-badge">진행 중</span>
+          <span class="project-badge">🦫 Baby Beavers 1기</span>
+          <span class="project-badge">Justin Beavers 팀</span>
           <span class="project-period">2026.03 ~ 현재</span>
         </div>
         <h3>클라우드 보안 학습 — 레드팀 시나리오 & 인프라 구축</h3>
@@ -412,11 +424,19 @@
           <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
           Beaver-Dam-Community/GnawLab
         </a>
+        <a href="https://github.com/Beaver-Dam-Community/GnawLab/tree/feature/dam-breaks/scenarios/aws/02-shadow-api" target="_blank" class="gh-link">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          02 Shadow API - Legacy Bridge
+        </a>
+        <a href="https://github.com/Beaver-Dam-Community/GnawLab/tree/feature/dam-breaks/scenarios/aws/03-supply-chain/dam-breaks" target="_blank" class="gh-link">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          03 Supply Chain - Dam Breaks
+        </a>
       </div>
     </div>
 
     <!-- 2025.10 MCP 캡스톤 -->
-    <div id="proj-mcp" class="project-card highlight">
+    <div id="proj-mcp" class="project-card" style="border-left-color:#f43f5e;">
       <div>
         <div class="project-meta">
           <span class="project-badge">🏆 AWARD ×2</span>
@@ -447,8 +467,8 @@
       </div>
       <div class="project-award">
         🥇 대상 ×2
-        <span>대한전기학회 18회<br>2025.10.23</span>
-        <span style="margin-top:.4rem;display:block;">상명대 캡스톤 교내<br>2026.02.05</span>
+        <span>대한전기학회 제18회 대학생 작품경진대회 대상<br>2025.10.23</span>
+        <span style="margin-top:.4rem;display:block;">상명대학교 2025학년도 2학기 캡스톤디자인 경진대회 대상<br>2026.02.05</span>
       </div>
     </div>
 
